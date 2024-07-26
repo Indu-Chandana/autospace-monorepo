@@ -16,8 +16,11 @@ async function bootstrap() {
       You might also need to use the <a target="_blank" 
       href="https://studio.apollographql.com/sandbox/explorer?endpoint=http://localhost:300/graphql&document=query users{users{uid}}"
       >Apollo explorer</a> for a greater experirnce
-      `
-    ).setVersion('0.1').addBearerAuth().build()
+      `,
+    )
+    .setVersion('0.1')
+    .addBearerAuth()
+    .build()
 
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('/', app, document)
