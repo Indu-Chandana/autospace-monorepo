@@ -20,7 +20,10 @@ export class UserWhereInputStrict
   implements
     RestrictProperties<
       UserWhereInputStrict,
-      Omit<Prisma.UserWhereInput, 'Credentials' | 'AuthProvider' | 'Admin'>
+      Omit<
+        Prisma.UserWhereInput,
+        'Credentials' | 'AuthProvider' | 'Admin' | 'image'
+      >
     >
 {
   uid: StringFilter
