@@ -18,11 +18,10 @@ export class UserWhereUniqueInput {
 @InputType()
 export class UserWhereInputStrict
   implements
-    RestrictProperties<
-      UserWhereInputStrict,
-      Omit<Prisma.UserWhereInput, 'Credentials' | 'AuthProvider' | 'Admin'>
-    >
-{
+  RestrictProperties<
+    UserWhereInputStrict,
+    Omit<Prisma.UserWhereInput, 'Credentials' | 'AuthProvider' | 'Admin' | 'image'>
+  > {
   uid: StringFilter
   createdAt: DateTimeFilter
   updatedAt: DateTimeFilter
@@ -37,7 +36,7 @@ export class UserWhereInputStrict
 }
 
 @InputType()
-export class UserWhereInput extends PartialType(UserWhereInputStrict) {}
+export class UserWhereInput extends PartialType(UserWhereInputStrict) { }
 
 @InputType()
 export class UserListRelationFilter {
