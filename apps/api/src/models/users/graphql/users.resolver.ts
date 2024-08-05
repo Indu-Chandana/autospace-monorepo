@@ -2,7 +2,12 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql'
 import { UsersService } from './users.service'
 import { User } from './entity/user.entity'
 import { FindManyUserArgs, FindUniqueUserArgs } from './dtos/find.args'
-import { RegisterWithProviderInput, RegisterWithCredentialsInput, LoginOutput, LoginInput } from './dtos/create-user.input'
+import {
+  RegisterWithProviderInput,
+  RegisterWithCredentialsInput,
+  LoginOutput,
+  LoginInput,
+} from './dtos/create-user.input'
 import { UpdateUserInput } from './dtos/update-user.input'
 import { checkRowLevelPermission } from 'src/common/auth/util'
 import { GetUserType } from 'src/common/types'
@@ -14,7 +19,7 @@ export class UsersResolver {
   constructor(
     private readonly usersService: UsersService,
     private readonly prisma: PrismaService,
-  ) { }
+  ) {}
 
   // @AllowAuthenticated()
   // @Mutation(() => User)
@@ -29,7 +34,7 @@ export class UsersResolver {
   @Mutation(() => User)
   async registerWithCredentials(
     @Args('registerWithCredentialsInput')
-    args: RegisterWithCredentialsInput
+    args: RegisterWithCredentialsInput,
   ) {
     return this.usersService.registerWithCredentials(args)
   }
@@ -37,7 +42,7 @@ export class UsersResolver {
   @Mutation(() => User)
   async registerWithProvider(
     @Args('registerWithProviderInput')
-    args: RegisterWithProviderInput
+    args: RegisterWithProviderInput,
   ) {
     return this.usersService.registerWithProvider(args)
   }

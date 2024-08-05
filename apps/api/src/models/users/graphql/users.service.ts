@@ -1,9 +1,18 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common'
+import {
+  BadRequestException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common'
 import { FindManyUserArgs, FindUniqueUserArgs } from './dtos/find.args'
 import { PrismaService } from 'src/common/prisma/prisma.service'
 // import { CreateUserInput } from './dtos/create-user.input'
 import { UpdateUserInput } from './dtos/update-user.input'
-import { LoginInput, LoginOutput, RegisterWithCredentialsInput, RegisterWithProviderInput } from './dtos/create-user.input'
+import {
+  LoginInput,
+  LoginOutput,
+  RegisterWithCredentialsInput,
+  RegisterWithProviderInput,
+} from './dtos/create-user.input'
 
 import * as bcrypt from 'bcryptjs'
 import { v4 as uuid } from 'uuid'
@@ -13,8 +22,8 @@ import { JwtService } from '@nestjs/jwt'
 export class UsersService {
   constructor(
     private readonly prisma: PrismaService,
-    private readonly jwtService: JwtService
-  ) { }
+    private readonly jwtService: JwtService,
+  ) {}
   // create(createUserInput: CreateUserInput) {
   //   return this.prisma.user.create({
   //     data: createUserInput,
@@ -25,10 +34,10 @@ export class UsersService {
     email,
     name,
     password,
-    image
+    image,
   }: RegisterWithCredentialsInput) {
     const existingUser = await this.prisma.credentials.findUnique({
-      where: { email }
+      where: { email },
     })
 
     if (existingUser) {
@@ -43,51 +52,47 @@ export class UsersService {
 
     return this.prisma.user.create({
       data: {
-        uid, name, image,
+        uid,
+        name,
+        image,
         Credentials: {
           create: { email, passwordHash },
         },
         AuthProvider: {
           create: {
-            type: "CREDENTIALS"
-          }
-        }
+            type: 'CREDENTIALS',
+          },
+        },
       },
       include: {
-        Credentials: true // we need creadentials back.
-      }
+        Credentials: true, // we need creadentials back.
+      },
     })
   }
 
-  registerWithProvider({
-    name,
-    uid,
-    type, image
-  }: RegisterWithProviderInput) {
+  registerWithProvider({ name, uid, type, image }: RegisterWithProviderInput) {
     return this.prisma.user.create({
       data: {
         uid,
-        name, image,
+        name,
+        image,
         AuthProvider: {
           create: {
-            type
-          }
-        }
-      }
+            type,
+          },
+        },
+      },
     })
   }
 
-  async login({
-    email,
-    password
-  }: LoginInput): Promise<LoginOutput> {
+  async login({ email, password }: LoginInput): Promise<LoginOutput> {
     const user = await this.prisma.user.findFirst({
       where: {
         Credentials: { email },
       },
       include: {
-        Credentials: true
-      }
+        Credentials: true,
+      },
     })
 
     if (!user) {
@@ -96,7 +101,7 @@ export class UsersService {
 
     const isPasswordValid = bcrypt.compareSync(
       password,
-      user.Credentials.passwordHash
+      user.Credentials.passwordHash,
     )
 
     if (!isPasswordValid) {
@@ -105,7 +110,7 @@ export class UsersService {
 
     const jwtToken = this.jwtService.sign(
       { uid: user.uid },
-      { algorithm: 'HS256' }
+      { algorithm: 'HS256' },
     )
 
     return { token: jwtToken }
