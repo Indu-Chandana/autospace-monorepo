@@ -131,7 +131,7 @@ model Garage {
 
   companyId    Int
   Company      Company       @relation(fields: [companyId], references: [id])
-  Address      Address
+  Address      Address?
   Verification Verification?
   Reviews      Review[]
   Slots        Slot[]
@@ -210,6 +210,51 @@ model ValetAssignment {
   PickupValet   Valet?  @relation("PickupValet", fields: [pickupValetId], references: [uid])
   ReturnValet   Valet?  @relation("ReturnValet", fields: [returnValetId], references: [uid])
   Booking       Booking @relation(fields: [bookingId], references: [id])
+}
+
+model BookingTimeline {
+  id Int @id @default(autoincrement())
+
+  timestamp DateTime      @default(now())
+  status    BookingStatus
+
+  bookingId Int
+  Booking   Booking @relation(fields: [bookingId], references: [id])
+
+  valetId String?
+  Valet   Valet?  @relation(fields: [valetId], references: [uid])
+
+  managerId String?
+  Manager   Manager? @relation(fields: [managerId], references: [uid])
+
+  @@index([bookingId])
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  rating  Int     @default(0)
+  comment String?
+
+  customerId String
+  Customer   Customer @relation(fields: [customerId], references: [uid])
+
+  garageId Int
+  Garage   Garage @relation(fields: [garageId], references: [id])
+}
+
+model Verification {
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  verified Boolean @default(false)
+
+  adminId  String
+  garageId Int    @id
+  Admin    Admin  @relation(fields: [adminId], references: [uid])
+  Garage   Garage @relation(fields: [garageId], references: [id])
 }
 
 enum SlotType {
