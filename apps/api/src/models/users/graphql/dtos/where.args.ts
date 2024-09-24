@@ -1,14 +1,13 @@
-import {
-  // Field,
-  InputType,
-  PartialType,
-} from '@nestjs/graphql'
+import { InputType, PartialType } from '@nestjs/graphql'
 import { Prisma } from '@prisma/client'
 import {
   DateTimeFilter,
   RestrictProperties,
   StringFilter,
 } from 'src/common/dtos/common.input'
+import { CustomerRelationFilter } from 'src/models/customers/graphql/dtos/where.args'
+import { ManagerRelationFilter } from 'src/models/managers/graphql/dtos/where.args'
+import { ValetRelationFilter } from 'src/models/valets/graphql/dtos/where.args'
 
 @InputType()
 export class UserWhereUniqueInput {
@@ -26,46 +25,13 @@ export class UserWhereInputStrict
       >
     >
 {
-  Manager:
-    | (Prisma.Without<
-        Prisma.ManagerNullableRelationFilter,
-        Prisma.ManagerWhereInput
-      > &
-        Prisma.ManagerWhereInput)
-    | (Prisma.Without<
-        Prisma.ManagerWhereInput,
-        Prisma.ManagerNullableRelationFilter
-      > &
-        Prisma.ManagerNullableRelationFilter)
-  Valet:
-    | (Prisma.Without<
-        Prisma.ValetNullableRelationFilter,
-        Prisma.ValetWhereInput
-      > &
-        Prisma.ValetWhereInput)
-    | (Prisma.Without<
-        Prisma.ValetWhereInput,
-        Prisma.ValetNullableRelationFilter
-      > &
-        Prisma.ValetNullableRelationFilter)
-  Customer:
-    | (Prisma.Without<
-        Prisma.CustomerNullableRelationFilter,
-        Prisma.CustomerWhereInput
-      > &
-        Prisma.CustomerWhereInput)
-    | (Prisma.Without<
-        Prisma.CustomerWhereInput,
-        Prisma.CustomerNullableRelationFilter
-      > &
-        Prisma.CustomerNullableRelationFilter)
+  Customer: CustomerRelationFilter
+  Manager: ManagerRelationFilter
+  Valet: ValetRelationFilter
   uid: StringFilter
   createdAt: DateTimeFilter
   updatedAt: DateTimeFilter
   name: StringFilter
-
-  // Todo: Add the below field decorator only to the $Enums types.
-  // @Field(() => $Enums.x)
 
   AND: UserWhereInput[]
   OR: UserWhereInput[]

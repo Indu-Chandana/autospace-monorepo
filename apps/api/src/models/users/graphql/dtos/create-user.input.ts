@@ -8,8 +8,6 @@ import {
 import { User } from '../entity/user.entity'
 import { AuthProviderType } from '@prisma/client'
 
-// when u deal with "enum" u have to register it,
-// u have to decorate it.
 registerEnumType(AuthProviderType, {
   name: 'AuthProviderType',
 })
@@ -20,17 +18,18 @@ export class RegisterWithProviderInput extends PickType(
   ['uid', 'name', 'image'],
   InputType,
 ) {
-  // decorate it.
   @Field(() => AuthProviderType)
   type: AuthProviderType
 }
 
 @InputType()
-export class RegisterWithCredentialsInput {
-  name: string
+export class RegisterWithCredentialsInput extends PickType(
+  User,
+  ['name', 'image'],
+  InputType,
+) {
   email: string
   password: string
-  image?: string
 }
 
 @InputType()
@@ -42,4 +41,5 @@ export class LoginInput extends PickType(RegisterWithCredentialsInput, [
 @ObjectType()
 export class LoginOutput {
   token: string
+  user: User
 }

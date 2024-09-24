@@ -96,7 +96,7 @@ model Valet {
 
   displayName String
   image       String?
-  licenceId   String  @default("")
+  licenceID   String  @default("")
 
   companyId         Int?
   Company           Company?          @relation(fields: [companyId], references: [id])
@@ -178,7 +178,7 @@ model Booking {
   totalPrice    Float?
   startTime     DateTime
   endTime       DateTime
-  vehicalNumber String
+  vehicleNumber String
   phoneNumber   String?
   passcode      String?
   status        BookingStatus @default(BOOKED)
