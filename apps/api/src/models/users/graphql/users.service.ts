@@ -5,15 +5,13 @@ import {
 } from '@nestjs/common'
 import { FindManyUserArgs, FindUniqueUserArgs } from './dtos/find.args'
 import { PrismaService } from 'src/common/prisma/prisma.service'
-// import { CreateUserInput } from './dtos/create-user.input'
-import { UpdateUserInput } from './dtos/update-user.input'
 import {
   LoginInput,
   LoginOutput,
   RegisterWithCredentialsInput,
   RegisterWithProviderInput,
 } from './dtos/create-user.input'
-
+import { UpdateUserInput } from './dtos/update-user.input'
 import * as bcrypt from 'bcryptjs'
 import { v4 as uuid } from 'uuid'
 import { JwtService } from '@nestjs/jwt'
@@ -24,11 +22,20 @@ export class UsersService {
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
   ) {}
-  // create(createUserInput: CreateUserInput) {
-  //   return this.prisma.user.create({
-  //     data: createUserInput,
-  //   })
-  // }
+  registerWithProvider({ image, name, uid, type }: RegisterWithProviderInput) {
+    return this.prisma.user.create({
+      data: {
+        uid,
+        name,
+        image,
+        AuthProvider: {
+          create: {
+            type,
+          },
+        },
+      },
+    })
+  }
 
   async registerWithCredentials({
     email,
@@ -56,7 +63,10 @@ export class UsersService {
         name,
         image,
         Credentials: {
-          create: { email, passwordHash },
+          create: {
+            email,
+            passwordHash,
+          },
         },
         AuthProvider: {
           create: {
@@ -65,22 +75,7 @@ export class UsersService {
         },
       },
       include: {
-        Credentials: true, // we need creadentials back.
-      },
-    })
-  }
-
-  registerWithProvider({ name, uid, type, image }: RegisterWithProviderInput) {
-    return this.prisma.user.create({
-      data: {
-        uid,
-        name,
-        image,
-        AuthProvider: {
-          create: {
-            type,
-          },
-        },
+        Credentials: true,
       },
     })
   }
@@ -110,10 +105,12 @@ export class UsersService {
 
     const jwtToken = this.jwtService.sign(
       { uid: user.uid },
-      { algorithm: 'HS256' },
+      {
+        algorithm: 'HS256',
+      },
     )
 
-    return { token: jwtToken }
+    return { token: jwtToken, user }
   }
 
   findAll(args: FindManyUserArgs) {

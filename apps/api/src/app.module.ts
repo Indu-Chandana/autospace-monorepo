@@ -8,8 +8,21 @@ import { ConfigModule } from '@nestjs/config'
 import { PrismaModule } from './common/prisma/prisma.module'
 import { UsersModule } from './models/users/users.module'
 import { JwtModule } from '@nestjs/jwt'
+import { AdminsModule } from './models/admins/admins.module'
+import { CustomersModule } from './models/customers/customers.module'
+import { ManagersModule } from './models/managers/managers.module'
+import { ValetsModule } from './models/valets/valets.module'
+import { CompaniesModule } from './models/companies/companies.module'
+import { GaragesModule } from './models/garages/garages.module'
+import { AddressesModule } from './models/addresses/addresses.module'
+import { SlotsModule } from './models/slots/slots.module'
+import { BookingsModule } from './models/bookings/bookings.module'
+import { ValetAssignmentsModule } from './models/valet-assignments/valet-assignments.module'
+import { BookingTimelinesModule } from './models/booking-timelines/booking-timelines.module'
+import { ReviewsModule } from './models/reviews/reviews.module'
+import { VerificationsModule } from './models/verifications/verifications.module'
 
-// Todo: move this to util lib because this val also need to access in FE
+// Todo: Move this to util lib.
 const MAX_AGE = 24 * 60 * 60
 
 @Module({
@@ -22,16 +35,32 @@ const MAX_AGE = 24 * 60 * 60
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      introspection: true, // some times client may want to get schema info.
-      fieldResolverEnhancers: ['guards'], // to protect resolvers- we have to enable this.
-      autoSchemaFile: join(process.cwd(), 'src/schema.gql'), // from the current dir -> we are going to 'src/schema.gql'.
-      // when ever nest server runs, It will generate graphQl schema
-      buildSchemaOptions: {
-        numberScalarMode: 'integer', // by default it is float. we modifing into int
-      },
+      introspection: true,
+      fieldResolverEnhancers: ['guards'],
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      //   buildSchemaOptions: {
+      //      numberScalarMode: 'integer',
+      //   },
     }),
+
     PrismaModule,
+
+    // StripeModule,
+
     UsersModule,
+    AdminsModule,
+    CustomersModule,
+    ManagersModule,
+    ValetsModule,
+    CompaniesModule,
+    GaragesModule,
+    AddressesModule,
+    SlotsModule,
+    BookingsModule,
+    ValetAssignmentsModule,
+    BookingTimelinesModule,
+    ReviewsModule,
+    VerificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
