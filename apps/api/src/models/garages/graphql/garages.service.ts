@@ -8,7 +8,7 @@ import { Prisma } from '@prisma/client'
 
 @Injectable()
 export class GaragesService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService) {}
   async create({
     Address,
     companyId,
@@ -50,12 +50,12 @@ export class GaragesService {
   }
 
   update(updateGarageInput: UpdateGarageInput) {
-    const { id, Address, Slots, ...data } = updateGarageInput;
+    const { id, Address, Slots, ...data } = updateGarageInput
 
     // Silence linting (husky) for unused variables
-    void id;
-    void Address;
-    void Slots;
+    void id
+    void Address
+    void Slots
 
     return this.prisma.garage.update({
       where: { id },
