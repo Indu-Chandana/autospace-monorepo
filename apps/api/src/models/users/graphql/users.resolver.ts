@@ -26,11 +26,12 @@ import { Valet } from 'src/models/valets/graphql/entity/valet.entity'
 import { Customer } from 'src/models/customers/graphql/entity/customer.entity'
 
 @Resolver(() => User)
+
 export class UsersResolver {
   constructor(
     private readonly usersService: UsersService,
     private readonly prisma: PrismaService,
-  ) {}
+  ) { }
 
   @Mutation(() => User)
   async registerWithCredentials(
