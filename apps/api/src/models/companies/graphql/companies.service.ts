@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common'
+import { BadRequestException, Injectable } from '@nestjs/common'
 import { FindManyCompanyArgs, FindUniqueCompanyArgs } from './dtos/find.args'
 import { PrismaService } from 'src/common/prisma/prisma.service'
 import { CreateCompanyInput } from './dtos/create-company.input'
@@ -13,6 +13,13 @@ export class CompaniesService {
     managerId,
     managerName,
   }: CreateCompanyInput) {
+    const manager = this.prisma.manager.findUnique({
+      where: { uid: managerId },
+    })
+    if (manager)
+      throw new BadRequestException(
+        'Manager is already a part of another company.',
+      )
     return this.prisma.company.create({
       data: {
         description,
