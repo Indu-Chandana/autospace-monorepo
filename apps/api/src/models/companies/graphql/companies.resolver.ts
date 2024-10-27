@@ -23,7 +23,7 @@ export class CompaniesResolver {
   constructor(
     private readonly companiesService: CompaniesService,
     private readonly prisma: PrismaService,
-  ) {}
+  ) { }
 
   @AllowAuthenticated()
   @Mutation(() => Company)
@@ -37,7 +37,7 @@ export class CompaniesResolver {
     return this.companiesService.create(args)
   }
 
-  @AllowAuthenticated()
+  // @AllowAuthenticated()
   @Query(() => [Company], { name: 'companies' })
   findAll(@Args() args: FindManyCompanyArgs) {
     return this.companiesService.findAll(args)
