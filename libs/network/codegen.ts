@@ -10,7 +10,7 @@ const plugins = [
 const config: CodegenConfig = {
     overwrite: true,
     schema: '../../apps/api/src/schema.gql',
-    // watch: true,
+    watch: true, // '@parcel/watcher' installed.
     generates: {
         './src/gql/generated.tsx': {
             documents: `./src/${documentsPattern}`,

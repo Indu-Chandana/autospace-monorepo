@@ -9,6 +9,7 @@ How this work...
 
 2. paste that in the 'queries.graphql'
 
+<created script in package.json for codegen>
 3. run -> 'yarn codegen' (this will create typesafe code in gql/generated.tsx)
 4. then we can use in app/web (because we wrap the entire app with Apollo Provider and also we can use 'lib/network' dependencies in web because we wrap)
 ----------------------------
@@ -20,3 +21,4 @@ How this work...
   )
 ----------------------------
 
+installed '@parcel-watcher' now when we start using command 'yarn codegen'. It will be checking changes.
