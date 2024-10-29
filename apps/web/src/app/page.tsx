@@ -19,11 +19,11 @@ export default function Home() {
   console.log('data', data)
 
   return (
-    <main>
+    <main className="bg-primary">
       Hello {add(222, 2)}
       <div>
         {data?.companies.map((company) => (
-          <div className="p-4 bg-gray-100 rounded m-4" key={company.id}>
+          <div className="p-4 rounded m-4" key={company.id}>
             {company.displayName}
           </div>
         ))}

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import './globals.css'
+import '@autospace/ui/src/app/globals.css'  // all FE apps are using same 'lib/UI' tailwind stuff. we changed tailwing.config as well.
 import { ApolloProvider } from '@autospace/network/src/config/apollo'
 
 const inter = Inter({ subsets: ['latin'] })
