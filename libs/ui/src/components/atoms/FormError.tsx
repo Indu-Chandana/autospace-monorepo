@@ -1,6 +1,6 @@
 import { IconExclamationCircle } from '@tabler/icons-react'
 
-export interface IFormErrorProps { }
+// export interface IFormErrorProps { }
 
 export const FormError = ({ error }: { error?: string | undefined }) => {
     if (error) {

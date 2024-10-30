@@ -23,7 +23,7 @@ export default function Home() {
   return (
     <main className="">
       <BrandIcon />
-      <Button >Hello</Button>
+      <Button>Hello</Button>
       Hello {add(222, 2)}
       <div>
         {data?.companies.map((company) => (
