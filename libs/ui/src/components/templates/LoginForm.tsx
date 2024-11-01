@@ -12,7 +12,9 @@ export interface ILoginFormProps {
     className?: string
 }
 
-export const LoginForm = ({ className }: ILoginFormProps) => {
+export const LoginForm = ({
+    // className
+}: ILoginFormProps) => {
     const { replace } = useRouter()
     const { register, handleSubmit, formState: { errors } } = useFormLogin()
 

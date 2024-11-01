@@ -6,6 +6,12 @@ export interface ISignupFormProps {
     role?: Role
 }
 
-export const RegisterForm = ({ className, role }: ISignupFormProps) => {
-    const { register, handleSubmit, formState: { errors } } = useFormRegister()
+export const RegisterForm = ({
+    // className, role
+}: ISignupFormProps) => {
+    const {
+        // register, handleSubmit,
+        formState: {
+            //  errors
+        } } = useFormRegister()
 }
