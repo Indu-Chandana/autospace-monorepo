@@ -6,6 +6,8 @@ import {
   RegisterWithCredentialsDocument,
   CompaniesDocument,
 } from '@autospace/network/src/gql/generated'
+import { BrandIcon } from '@autospace/ui/src/components/atoms/BrandIcon'
+import { Button } from '@autospace/ui/src/components/atoms/Button'
 
 export default function Home() {
   const [, { data: regData }] = useMutation(RegisterWithCredentialsDocument)
@@ -19,7 +21,9 @@ export default function Home() {
   console.log('data', data)
 
   return (
-    <main className="bg-primary">
+    <main className="">
+      <BrandIcon />
+      <Button>Hello</Button>
       Hello {add(222, 2)}
       <div>
         {data?.companies.map((company) => (
