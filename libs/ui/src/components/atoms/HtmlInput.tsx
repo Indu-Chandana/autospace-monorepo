@@ -11,5 +11,4 @@ export const HtmlInput = React.forwardRef<HTMLInputElement, HtmlInputProps>(
         />
     ),
 )
-
 HtmlInput.displayName = 'Input'
