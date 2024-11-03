@@ -65,4 +65,4 @@ const MAX_AGE = 24 * 60 * 60
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
