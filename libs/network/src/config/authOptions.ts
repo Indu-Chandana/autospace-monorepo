@@ -72,6 +72,9 @@ export const authOptions: NextAuthOptions = {
         async encode({ token, secret }): Promise<string> {
             // Implement custom JWT encoding logic
 
+            // 'secret' -> coming from web/.env "NEXTAUTH_SECRET" 
+            // (Next auth check that is in their and it has to be name 'NEXTAUTH_SECRET')
+
             if (!token) {
                 throw new Error('Token is undefined')
             }

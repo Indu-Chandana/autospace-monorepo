@@ -30,7 +30,7 @@ const MAX_AGE = 24 * 60 * 60
     ConfigModule.forRoot(),
     JwtModule.register({
       global: true,
-      secret: process.env.JWT_SECRET,
+      secret: process.env.JWT_SECRET, // this similar with web/.env 'NEXTAUTH_SECRET', because we use combination of nextauth.
       signOptions: { expiresIn: MAX_AGE },
     }),
     GraphQLModule.forRoot<ApolloDriverConfig>({
@@ -65,4 +65,4 @@ const MAX_AGE = 24 * 60 * 60
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

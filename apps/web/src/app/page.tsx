@@ -8,6 +8,8 @@ import {
 } from '@autospace/network/src/gql/generated'
 import { BrandIcon } from '@autospace/ui/src/components/atoms/BrandIcon'
 import { Button } from '@autospace/ui/src/components/atoms/Button'
+import { signOut, useSession } from 'next-auth/react'
+import Link from 'next/link'
 
 export default function Home() {
   const [, { data: regData }] = useMutation(RegisterWithCredentialsDocument)
@@ -17,11 +19,17 @@ export default function Home() {
     //   variables: { skip: 1, take: 1, where: { Garages: { some: {} } } }
     // }
   )
+  const { data: sessionData, status } = useSession()
 
   console.log('data', data)
 
   return (
     <main className="">
+      {sessionData?.user?.uid ? (
+        <Button onClick={() => signOut()}>SignOut</Button>
+      ) : (
+        <Link href="/login">Login</Link>
+      )}
       <BrandIcon />
       <Button>Hello</Button>
       Hello {add(222, 2)}

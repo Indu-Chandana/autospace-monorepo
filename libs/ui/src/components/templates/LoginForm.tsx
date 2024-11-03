@@ -41,7 +41,7 @@ export const LoginForm = ({
             </HtmlLabel>
             <Button type='submit'>Submit</Button>
             <div className='mt-4 text-sm'>
-                Do not have an autospace account?
+                Do not have an autospace account? {' '}
                 <Link
                     href="/register"
                     className='font-bold underline underline-offset-4'
