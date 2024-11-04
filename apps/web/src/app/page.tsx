@@ -6,32 +6,23 @@ import {
   RegisterWithCredentialsDocument,
   CompaniesDocument,
 } from '@autospace/network/src/gql/generated'
-import { BrandIcon } from '@autospace/ui/src/components/atoms/BrandIcon'
-import { Button } from '@autospace/ui/src/components/atoms/Button'
-import { signOut, useSession } from 'next-auth/react'
-import Link from 'next/link'
+// import { useSession } from 'next-auth/react'
 
 export default function Home() {
-  const [, { data: regData }] = useMutation(RegisterWithCredentialsDocument)
-  const { data, loading } = useQuery(
+  // const [, { data: regData }] = useMutation(RegisterWithCredentialsDocument)
+  const {
+    data,
+    // loading
+  } = useQuery(
     CompaniesDocument, // token need to be provide
     //   , {  -------- also we can do sorting stuff  --------
     //   variables: { skip: 1, take: 1, where: { Garages: { some: {} } } }
     // }
   )
-  const { data: sessionData, status } = useSession()
-
-  console.log('data', data)
+  // const { data: sessionData, status } = useSession()
 
   return (
-    <main className="">
-      {sessionData?.user?.uid ? (
-        <Button onClick={() => signOut()}>SignOut</Button>
-      ) : (
-        <Link href="/login">Login</Link>
-      )}
-      <BrandIcon />
-      <Button>Hello</Button>
+    <main className="p-8">
       Hello {add(222, 2)}
       <div>
         {data?.companies.map((company) => (
