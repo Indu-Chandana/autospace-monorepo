@@ -47,3 +47,23 @@ mutation RegisterWithProvider($registerWithProviderInput: RegisterWithProviderIn
     uid
   }
 }
+
+query SearchGarages($dateFilter: DateFilterInput!, $locationFilter: LocationFilterInput!, $slotsFilter: SlotWhereInput, $garageFilter: GarageFilter) {
+  searchGarages(dateFilter: $dateFilter, locationFilter: $locationFilter, slotsFilter: $slotsFilter, garageFilter: $garageFilter) {
+    id
+    address {
+      address
+      lng
+      lat
+    }
+    images
+    availableSlots(dateFilter: $dateFilter, slotsFilter: $slotsFilter) {
+      type
+      pricePerHour
+      count
+    }
+    verification {
+      verified
+    }
+  }
+}

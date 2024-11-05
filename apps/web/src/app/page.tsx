@@ -5,6 +5,7 @@ import { useMutation, useQuery } from '@apollo/client' // we warp 'lib/network' 
 import {
   RegisterWithCredentialsDocument,
   CompaniesDocument,
+  SearchGaragesDocument,
 } from '@autospace/network/src/gql/generated'
 // import { useSession } from 'next-auth/react'
 
@@ -20,6 +21,18 @@ export default function Home() {
     // }
   )
   // const { data: sessionData, status } = useSession()
+  const { data: garages } = useQuery(SearchGaragesDocument, {
+    variables: {
+      dateFilter: { end: '2024-12-14', start: '2024-12-04' },
+      locationFilter: {
+        ne_lat: 1,
+        ne_lng: 1,
+        sw_lat: -1,
+        sw_lng: -1
+      }
+    }
+  })
+
 
   return (
     <main className="p-8">
@@ -29,6 +42,12 @@ export default function Home() {
           <div className="p-4 rounded m-4" key={company.id}>
             {company.displayName}
           </div>
+        ))}
+      </div>
+
+      <div>
+        {garages?.searchGarages.map((garage) => (
+          <div key={garage.id}>{garage.id}</div>
         ))}
       </div>
     </main>
