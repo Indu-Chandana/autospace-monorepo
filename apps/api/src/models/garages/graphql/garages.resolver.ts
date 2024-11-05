@@ -37,7 +37,7 @@ export class GaragesResolver {
   constructor(
     private readonly garagesService: GaragesService,
     private readonly prisma: PrismaService,
-  ) { }
+  ) {}
 
   @AllowAuthenticated('manager')
   @Mutation(() => Garage)
@@ -110,7 +110,8 @@ export class GaragesResolver {
           lng: { lte: ne_lng, gte: sw_lng },
         },
         Slots: {
-          some: { // ensures that the garage has at least one slot that matches the conditions inside {}
+          some: {
+            // ensures that the garage has at least one slot that matches the conditions inside {}
             ...slotsFilter,
             Bookings: {
               none: {

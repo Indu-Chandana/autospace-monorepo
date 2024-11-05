@@ -28,11 +28,10 @@ export default function Home() {
         ne_lat: 1,
         ne_lng: 1,
         sw_lat: -1,
-        sw_lng: -1
-      }
-    }
+        sw_lng: -1,
+      },
+    },
   })
-
 
   return (
     <main className="p-8">
@@ -44,7 +43,6 @@ export default function Home() {
           </div>
         ))}
       </div>
-
       <div>
         {garages?.searchGarages.map((garage) => (
           <div key={garage.id}>{garage.id}</div>
