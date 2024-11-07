@@ -111,6 +111,7 @@ export class GaragesResolver {
         },
         Slots: {
           some: {
+            // ensures that the garage has at least one slot that matches the conditions inside {}
             ...slotsFilter,
             Bookings: {
               none: {
