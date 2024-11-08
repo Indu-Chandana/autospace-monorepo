@@ -7,7 +7,7 @@ import {
   CompaniesDocument,
   SearchGaragesDocument,
 } from '@autospace/network/src/gql/generated'
-// import { useSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 
 export default function Home() {
   // const [, { data: regData }] = useMutation(RegisterWithCredentialsDocument)
@@ -20,7 +20,8 @@ export default function Home() {
     //   variables: { skip: 1, take: 1, where: { Garages: { some: {} } } }
     // }
   )
-  // const { data: sessionData, status } = useSession()
+  const { data: sessionData, status } = useSession()
+  console.log('--------', sessionData, status)
   const { data: garages } = useQuery(SearchGaragesDocument, {
     variables: {
       dateFilter: { end: '2024-12-14', start: '2024-12-04' },
