@@ -13,10 +13,10 @@ export const formSchemaSearchGarage = z.object({
     endTime: z.string(),
 
     locationFilter: z.object({
-        ne_lat: z.number().optional(),
-        ne_lng: z.number().optional(),
-        sw_lat: z.number().optional(),
-        sw_lng: z.number().optional()
+        ne_lat: z.number(),
+        ne_lng: z.number(),
+        sw_lat: z.number(),
+        sw_lng: z.number()
     }),
 
     type: z.nativeEnum(SlotType).array(),
@@ -83,6 +83,8 @@ export const formDefaultValuesSearchGarages: DefaultValues<FormTypeSearchGarage>
     type: AllSlotTypes.sort()
 }
 
+// why we use it like a context Provider -
+// u can use it, in the different components. eg: 'GarageMarker.tsx', 'template/SearchPage.tsx'
 export const FormProviderSearchGarage = ({
     children
 }: { children: ReactNode }) => {
