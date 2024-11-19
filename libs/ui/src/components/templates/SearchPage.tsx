@@ -8,7 +8,19 @@ import { initialViewState } from "@autospace/util/constants"
 // import { Autocomplete } from "../atoms/Autocomplete"
 import { SearchPlaceBox } from "../organisms/map/SearchPlacesBox"
 
+import { useFormContext } from 'react-hook-form'
+import { FormTypeSearchGarage } from '@autospace/forms/src/searchGarages'
+import { IconArrowDown } from "@tabler/icons-react"
+import { IconType } from "../molecules/IconTypes"
+import { HtmlInput } from "../atoms/HtmlInput"
+import { toLocalISOString } from "@autospace/util/date"
+import { ShowGarages } from "../organisms/search/ShowGarages"
+
 export const SearchPage = () => {
+
+    // 'setValue' set the values to it.  ~ setValue('locationFilter', locationFilter) ~
+    const { register, setValue, watch, trigger } = useFormContext<FormTypeSearchGarage>()
+    const formData = watch()
 
     // map -> zoom, drag, changes ditect and call the function
     const handleMapChange = useCallback(
@@ -23,7 +35,8 @@ export const SearchPage = () => {
 
             console.log('locationFilter', locationFilter)
             // think -> call 'searchGerage query'
-        }, []
+            setValue('locationFilter', locationFilter)  // set values
+        }, [setValue]
     )
 
     return (
@@ -33,9 +46,48 @@ export const SearchPage = () => {
             onZoomEnd={(e) => handleMapChange(e.target)}
             initialViewState={initialViewState}
         >
+            <ShowGarages />
             <Panel position="left-top">
                 {/* <Autocomplete options={['india', 'newyork']} /> */}
-                <SearchPlaceBox />
+                <div className="flex flex-col items-stretch">
+                    <SearchPlaceBox />
+                    <div className="flex relative pl-1 flex-col mt-1 bg-white/40 items-center gap-1 backdrop-blur-sm">
+                        <div className="absolute left-[1px] top-1/2 -translate-y-1/2">
+                            <IconArrowDown className="p-1" />
+                        </div>
+                        <div className="flex gap-1 items-center">
+                            <IconType time={formData.startTime} />
+                            <HtmlInput
+                                type="datetime-local"
+                                className="w-full p-2 text-lg font-light border-0"
+                                min={toLocalISOString(new Date()).slice(0, 16)}
+                                {...register('startTime', {
+                                    onChange(
+                                        // event
+                                    ) {
+                                        trigger('startTime')
+                                        trigger('endTime')
+                                    }
+                                })}
+                            />
+                        </div>
+                        <div className="flex gap-1 items-center">
+                            <IconType time={formData.endTime} />
+                            <HtmlInput
+                                min={toLocalISOString(new Date()).slice(0, 16)}
+                                type="datetime-local"
+                                className="w-full p-2 text-lg font-light border-0"
+                                {...register('endTime', {
+                                    onChange(
+                                        //event
+                                    ) {
+                                        trigger('endTime')
+                                    }
+                                })}
+                            />
+                        </div>
+                    </div>
+                </div>
             </Panel>
             <Panel position="right-center">
                 <DefaultZoomControls />
