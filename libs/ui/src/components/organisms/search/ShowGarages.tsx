@@ -1,9 +1,10 @@
 import { useLazyQuery } from '@apollo/client'
 import { SearchGaragesDocument } from '@autospace/network/src/gql/generated'
 import { useEffect } from 'react'
-import { useFormContext } from 'react-hook-form'
+// import { useFormContext } from 'react-hook-form'
 import { GarageMarker } from './GarageMarker'
-import { FormTypeSearchGarage } from '@autospace/forms/src/searchGarages'
+// import { FormTypeSearchGarage } from '@autospace/forms/src/searchGarages'
+import { useConvertSearchFormToVariables } from '@autospace/forms/src/adapters/searchFormAdapter'
 
 export const ShowGarages = () => {
     const [searchGarages, {
@@ -12,17 +13,22 @@ export const ShowGarages = () => {
         // error
     }] = useLazyQuery(SearchGaragesDocument)
 
-    const { watch } = useFormContext<FormTypeSearchGarage>()
-    const { endTime: end, startTime: start, locationFilter } = watch()
+    // const { watch } = useFormContext<FormTypeSearchGarage>()
+    // const { endTime: end, startTime: start, locationFilter } = watch()
+
+    const { variables } = useConvertSearchFormToVariables() // we can get form data inside the hook
 
     useEffect(() => {
-        searchGarages({
-            variables: {
-                dateFilter: { end, start },
-                locationFilter
-            }
-        })
-    }, [end, locationFilter, searchGarages, start])
+        if (variables) { searchGarages({ variables }) }
+
+        // searchGarages({
+        // variables: {
+        //     dateFilter: { end, start },
+        //     locationFilter
+        // }
+        // })
+        // }, [end, locationFilter, searchGarages, start])
+    }, [searchGarages, variables])
 
     return (
         <>
