@@ -3,7 +3,7 @@ version: '3.8'
 services:
   db:
     container_name: autospace_db
-    image: postgres
+    image: postgres # using dockerHub. If u have custom image, create with Dockerfile and we can specify as "build: ./frontend"
     restart: always
     ports:
       - 2010:5432

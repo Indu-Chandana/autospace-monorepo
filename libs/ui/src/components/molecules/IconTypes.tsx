@@ -1,4 +1,5 @@
-import { IconMoonStars, IconSun, IconSunrise, IconSunset } from "@tabler/icons-react"
+import { SlotType } from "@autospace/network/src/gql/generated"
+import { IconBike, IconCar, IconMoonStars, IconMotorbike, IconSun, IconSunrise, IconSunset, IconTir } from "@tabler/icons-react"
 
 export const IconType = ({
     time, className
@@ -14,4 +15,11 @@ export const IconType = ({
     if (hour >= 10 && hour < 16) return <IconSun className="w-5 h-5" />
     if (hour >= 16 && hour < 20) return <IconSunset className="w-5 h-5" />
     return <IconMoonStars className={`w-5 h-5 ${className}`} />
+}
+
+export const IconTypes = {
+    [SlotType.Bicycle]: <IconBike className="w-6 h-6" />,
+    [SlotType.Bike]: <IconMotorbike className="w-6 h-6" />,
+    [SlotType.Car]: <IconCar className="w-6 h-6" />,
+    [SlotType.Heavy]: <IconTir className="w-6 h-6" />
 }
