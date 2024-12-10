@@ -18,7 +18,7 @@ export class StripeController {
   constructor(
     private readonly stripeService: StripeService,
     private readonly bookingService: BookingsService,
-  ) { }
+  ) {}
 
   @Get()
   helloStripe() {
@@ -42,12 +42,13 @@ export class StripeController {
     const session =
       await this.stripeService.stripe.checkout.sessions.retrieve(sessionId)
     const {
-      // uid, 
-      bookingData } = session.metadata
+      // uid,
+      bookingData,
+    } = session.metadata
 
     const bookingInput: CreateBookingInput = JSON.parse(bookingData)
 
-    // const newBooking = 
+    // const newBooking =
     await this.bookingService.create(bookingInput)
 
     res.redirect(process.env.BOOKINGS_REDIRECT_URL)
