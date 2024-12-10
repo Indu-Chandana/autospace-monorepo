@@ -21,6 +21,7 @@ import { ValetAssignmentsModule } from './models/valet-assignments/valet-assignm
 import { BookingTimelinesModule } from './models/booking-timelines/booking-timelines.module'
 import { ReviewsModule } from './models/reviews/reviews.module'
 import { VerificationsModule } from './models/verifications/verifications.module'
+import { StripeModule } from './models/stripe/stripe.module'
 
 // Todo: Move this to util lib.
 const MAX_AGE = 24 * 60 * 60
@@ -45,7 +46,7 @@ const MAX_AGE = 24 * 60 * 60
 
     PrismaModule,
 
-    // StripeModule,
+    StripeModule,
 
     UsersModule,
     AdminsModule,

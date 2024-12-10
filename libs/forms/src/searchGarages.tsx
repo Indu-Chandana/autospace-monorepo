@@ -5,6 +5,7 @@ import { toLocalISOString } from '@autospace/util/date'
 import { ReactNode } from 'react'
 import { DefaultValues, useForm, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { isEndTimeValid, isStartTimeValid } from './util'
 
 const minMaxTuple = z.tuple([z.number(), z.number()])
 
@@ -32,25 +33,25 @@ export const formSchemaSearchGarage = z.object({
 
 export type FormTypeSearchGarage = z.infer<typeof formSchemaSearchGarage>
 
-const isStartTimeValid = (data: FormTypeSearchGarage) => {
-    const startDate = new Date(data.startTime)
-    const currentDate = new Date()
-    return startDate > currentDate
-}
+// const isStartTimeValid = (data: FormTypeSearchGarage) => {
+//     const startDate = new Date(data.startTime)
+//     const currentDate = new Date()
+//     return startDate > currentDate
+// }
 
-const isEndTimeValid = (data: FormTypeSearchGarage) => {
-    const startDate = new Date(data.startTime)
-    const endDate = new Date(data.endTime)
-    return endDate > startDate
-}
+// const isEndTimeValid = (data: FormTypeSearchGarage) => {
+//     const startDate = new Date(data.startTime)
+//     const endDate = new Date(data.endTime)
+//     return endDate > startDate
+// }
 
 // ------- custom validation -------
 formSchemaSearchGarage
-    .refine(isStartTimeValid, {
+    .refine(({ startTime }) => isStartTimeValid(startTime), {
         message: 'Start time should be greater than current time',
         path: ['startTime']
     })
-    .refine(isEndTimeValid, {
+    .refine(({ startTime, endTime }) => isEndTimeValid({ startTime, endTime }), {
         message: 'End time should be greater than start time',
         path: ['endTime']
     })
