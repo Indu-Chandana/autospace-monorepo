@@ -4,6 +4,7 @@ import '@autospace/ui/src/app/globals.css' // all FE apps are using same 'lib/UI
 import { ApolloProvider } from '@autospace/network/src/config/apollo'
 import { SessionProvider } from '@autospace/ui/src/components/molecules/SessionProvider' // 'use client'
 import { Header } from '@autospace/ui/src/components/organisms/Header'
+import { ToastContainer } from '@autospace/ui/src/components/molecules/Toast'
 import { MenuItem } from '@autospace/util/types'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -31,6 +32,7 @@ export default function RootLayout({
           <body className={inter.className}>
             <Header menuItems={MENUITEMS} />
             {children}
+            <ToastContainer />
           </body>
         </ApolloProvider>
       </SessionProvider>
