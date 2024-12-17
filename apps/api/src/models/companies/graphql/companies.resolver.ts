@@ -51,6 +51,14 @@ export class CompaniesResolver {
     })
   }
 
+  // @AllowAuthenticated()
+  // @Query(() => Company)
+  // myCompany(@GetUser() user: GetUserType) {
+  //   return this.prisma.company.findFirst({
+  //     where: { Managers: { some: { uid: user.uid } } },
+  //   })
+  // }
+
   @Query(() => Company, { name: 'company' })
   findOne(@Args() args: FindUniqueCompanyArgs) {
     return this.companiesService.findOne(args)
