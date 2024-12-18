@@ -13,7 +13,7 @@ export class CompaniesService {
     managerId,
     managerName,
   }: CreateCompanyInput) {
-    const manager = this.prisma.manager.findUnique({
+    const manager = await this.prisma.manager.findUnique({
       where: { uid: managerId },
     })
     if (manager)

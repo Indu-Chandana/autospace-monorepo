@@ -1,10 +1,13 @@
 import { MyCompanyDocument } from '@autospace/network/src/gql/generated'
-import { BaseComponent } from '@autospace/util/types'
 import { useQuery } from '@apollo/client'
 import { LoaderPanel } from '../molecules/Loader'
 import { AlertSection } from '../molecules/AlertSection'
+import { CreateCompany } from './CreateCompany'
+import { ReactNode } from 'react'
 
-export const IsManager = ({ children }: BaseComponent) => {
+type RenderPropChild = (id: number) => ReactNode
+
+export const IsManager = ({ children }: { children: RenderPropChild | ReactNode }) => {
     const { data, loading } = useQuery(MyCompanyDocument)
 
     if (loading) {
@@ -15,8 +18,13 @@ export const IsManager = ({ children }: BaseComponent) => {
         return (
             <AlertSection>
                 <div>You don&apos;t have a company yet.</div>
+                <CreateCompany />
                 {/* Todo Create company */}
             </AlertSection>
         )
-    return children
+    return <>
+        {typeof children === 'function'
+            ? (children as RenderPropChild)(data.myCompany.id)
+            : children}
+    </>
 }

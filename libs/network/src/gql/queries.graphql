@@ -87,3 +87,34 @@ query myCompany {
     displayName
   }
 }
+
+mutation CreateCompany($createCompanyInput: CreateCompanyInput!) {
+  createCompany(createCompanyInput: $createCompanyInput) {
+    id
+  }
+}
+
+query Garages($skip: Float, $take: Float, $cursor: GarageWhereUniqueInput, $orderBy: [GarageOrderByWithRelationInput!], $where: GarageWhereInput) {
+  garages(skip: $skip, take: $take, cursor: $cursor, orderBy: $orderBy, where: $where) {
+    id
+    displayName
+    description
+    images
+    verification {
+      verified
+    }
+    address {
+      lng
+      lat
+      id
+      address
+    }
+    slotCounts {
+      type
+      count
+    }
+  }
+  garagesCount(where:$where) {
+  count
+  }
+}
