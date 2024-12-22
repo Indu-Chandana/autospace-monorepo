@@ -118,3 +118,9 @@ query Garages($skip: Float, $take: Float, $cursor: GarageWhereUniqueInput, $orde
   count
   }
 }
+
+mutation CreateGarage($createGarageInput: CreateGarageInput!) {
+  createGarage(createGarageInput: $createGarageInput) {
+    id
+  }
+}
