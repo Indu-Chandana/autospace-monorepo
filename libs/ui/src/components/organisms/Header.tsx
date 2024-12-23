@@ -4,10 +4,8 @@ import { useSession } from 'next-auth/react'
 import { Container } from "../atoms/Container"
 import Link from "next/link"
 import { Brand } from "../atoms/Brand"
-import { Sidebar } from "./Sidebar"
 import { Button } from "../atoms/Button"
-import { UserInfo } from "../molecules/UserInfo"
-import { LogoutButton } from "../molecules/LogoutButton"
+import { NavSidebar } from "./NavSidebar"
 
 export type IHeaderProps = {
     type?: Role
@@ -17,7 +15,8 @@ export type IHeaderProps = {
 export const Header = ({ type, menuItems }: IHeaderProps) => {
     const session = useSession()
     const uid = session.data?.user?.uid
-    console.log('testt', uid)
+    // console.log('testt', uid)
+
     return (
         <header>
             <nav className="fixed z-50 top-0 w-full shadow-md  bg-white/50 backdrop-blur-md">
@@ -28,30 +27,32 @@ export const Header = ({ type, menuItems }: IHeaderProps) => {
                     </Link>
                     <div className="flex items-center gap-2">
                         {uid ? (
-                            <Sidebar >
-                                <div className="flex flex-col justify-between h-full">
-                                    <div>
-                                        <UserInfo className="mb-4" />
-                                        <div className="flex flex-col items-start justify-between space-y-1">
+                            // <Sidebar open={open} setOpen={setOpen}>
+                            //     <div className="flex flex-col justify-between h-full">
+                            //         <div>
+                            //             <UserInfo className="mb-4" />
+                            //             <div className="flex flex-col items-start justify-between space-y-1">
 
-                                            {menuItems.map(({ label, href }) => (
-                                                <Link
-                                                    className="hover:underline underline-offset-8 transition-all hover:pl-1"
-                                                    key={label}
-                                                    href={href}
-                                                >
-                                                    {label}
-                                                </Link>
-                                            ))}
-                                        </div>
-                                    </div>
+                            //                 {menuItems.map(({ label, href }) => (
+                            //                     <Link
+                            //                         className="hover:underline underline-offset-8 transition-all hover:pl-1"
+                            //                         key={label}
+                            //                         href={href}
+                            //                     >
+                            //                         {label}
+                            //                     </Link>
+                            //                 ))}
+                            //             </div>
+                            //         </div>
 
-                                    <div >
-                                        <LogoutButton />
-                                    </div>
-                                </div>
+                            //         <div >
+                            //             <LogoutButton />
+                            //         </div>
+                            //     </div>
 
-                            </Sidebar>
+                            // </Sidebar>
+                            <NavSidebar menuItems={menuItems} />
+
                         ) : (
                             <>
                                 <Link href="/register">
