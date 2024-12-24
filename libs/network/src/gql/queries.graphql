@@ -57,6 +57,7 @@ query SearchGarages($dateFilter: DateFilterInput!, $locationFilter: LocationFilt
       lat
     }
     images
+    displayName
     availableSlots(dateFilter: $dateFilter, slotsFilter: $slotsFilter) {
       type
       pricePerHour
