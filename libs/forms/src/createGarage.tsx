@@ -12,7 +12,7 @@ export const formSchemaAddress = z.object({
 
 export const formSchemaCreateSlot = z.object({
     height: z.number(),
-    wigth: z.number(),
+    width: z.number(),
     length: z.number(),
     pricePerHour: z.number(),
     count: z.number().min(1).max(10, { message: 'Maximum 10.' }),

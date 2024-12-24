@@ -22,6 +22,7 @@ export class GaragesService {
       throw new Error('Slot count cannot be more than 20 for any slot type.')
     }
     return this.prisma.$transaction(async (tx) => {
+      // this is like a PromiseAll([]) -> if some thing failed other one in role back as well.
       const createdGarage = await tx.garage.create({
         data: {
           Address: { create: Address },
@@ -31,11 +32,12 @@ export class GaragesService {
           images,
         },
       })
-      // const slotsByType = this.groupSlotsByType(Slots, createdGarage.id)
+      const slotsByType = this.groupSlotsByType(Slots, createdGarage.id)
 
-      // const createSlots = await tx.slot.createMany({
-      //   data: slotsByType,
-      // })
+      // const createSlots =
+      await tx.slot.createMany({
+        data: slotsByType,
+      })
 
       return createdGarage
     })
@@ -71,6 +73,33 @@ export class GaragesService {
     slots: CreateSlotInputWithoutGarageId[],
     garageId: number,
   ): Prisma.SlotCreateManyInput[] {
+    // console.log('slots ::', slots)
+    // slots :: [
+    //   {
+    //     length: 10,
+    //     width: 10,
+    //     height: 10,
+    //     type: 'CAR',
+    //     pricePerHour: 20,
+    //     count: 5
+    //   },
+    //   {
+    //     length: 10,
+    //     width: 10,
+    //     height: 10,
+    //     type: 'CAR',
+    //     pricePerHour: 20,
+    //     count: 5
+    //   },
+    //   {
+    //     length: 10,
+    //     width: 10,
+    //     height: 10,
+    //     type: 'BIKE',
+    //     pricePerHour: 18,
+    //     count: 3
+    //   }
+    // ]
     const slotsByType = []
     const slotCounts = {
       CAR: 0,
@@ -89,7 +118,53 @@ export class GaragesService {
         slotCounts[slot.type]++
       }
     })
-
+    // console.log('slotsByType ::', slotsByType)
+    // slotsByType :: [
+    //   {
+    //     length: 10,
+    //     width: 10,
+    //     height: 10,
+    //     type: 'CAR',
+    //     pricePerHour: 20,
+    //     displayName: 'CAR 0',
+    //     garageId: 4
+    //   },
+    //   {
+    //     length: 10,
+    //     width: 10,
+    //     height: 10,
+    //     type: 'CAR',
+    //     pricePerHour: 20,
+    //     displayName: 'CAR 1',
+    //     garageId: 4
+    //   },
+    //   {
+    //     length: 10,
+    //     width: 10,
+    //     height: 10,
+    //     type: 'CAR',
+    //     pricePerHour: 20,
+    //     displayName: 'CAR 2',
+    //     garageId: 4
+    //   },
+    //   {
+    //     length: 10,
+    //     width: 10,
+    //     height: 10,
+    //     type: 'CAR',
+    //     pricePerHour: 20,
+    //     displayName: 'CAR 3',
+    //     garageId: 4
+    //   },
+    //   {
+    //     length: 10,
+    //     width: 10,
+    //     height: 10,
+    //     type: 'CAR',
+    //     pricePerHour: 20,
+    //     displayName: 'CAR 4',
+    //     garageId: 4
+    //   },
     return slotsByType
   }
 }

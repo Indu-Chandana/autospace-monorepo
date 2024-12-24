@@ -1,7 +1,7 @@
 'use client'
 import { FormProviderCreateGarage, FormTypeCreateGarage } from '@autospace/forms/src/createGarage'
-// import { useMutation } from '@apollo/client'
-// import { CreateGarageDocument, namedOperations } from '@autospace/network/src/gql/generated'
+import { useMutation } from '@apollo/client'
+import { CreateGarageDocument, namedOperations } from '@autospace/network/src/gql/generated'
 import { HtmlLabel } from '../atoms/HtmlLabel'
 import { HtmlInput } from '../atoms/HtmlInput'
 import { Form } from '../atoms/Form'
@@ -16,36 +16,72 @@ import { Panel } from '../organisms/map/Panel'
 import { SearchPlaceBox } from '../organisms/map/SearchPlacesBox'
 import { ViewState } from '@autospace/util/types'
 import { CenterOfMap, DefaultZoomControls } from '../organisms/map/ZoomControls'
-import { GarageMapMarker } from '../organisms/CreateGarageComponents'
+import { AddSlots, GarageMapMarker } from '../organisms/CreateGarageComponents'
+import { toast } from '../molecules/Toast'
 
 export const CreateGarageContent = () => {
     const {
         register,
         handleSubmit,
         setValue,
-        // reset,
+        reset,
         control,
         formState: { errors },
         resetField,
         watch
     } = useFormContext<FormTypeCreateGarage>()
     const { uploading,
-        //  upload
+        upload
     } = useCloudinaryUpload();
     const { images } = watch()
 
-    // const [ -------------- make sure to unComment submit button loarding --------------
-    //     createGarage,
-    //      { data, error, loading }] = useMutation(
-    //     CreateGarageDocument,
-    //     { refetchQueries: [namedOperations.Query.Garages] }
-    // )
+    const [
+        createGarage,
+        { data,
+            // error,
+            loading }] = useMutation(
+                CreateGarageDocument,
+                {
+                    refetchQueries: [namedOperations.Query.Garages],
+                    onCompleted: () => {
+                        reset()
+                        toast('Garage created successfully.')
+                    },
+                    onError(
+                        // error, clientOptions
+                    ) {
+                        toast('Action failed.')
+                    }
+                }
+            )
 
     return <div className='grid md:grid-cols-2 gap-2 mt-2'>
         <div>
             <Form
-                onSubmit={handleSubmit((data) => {
+                onSubmit={handleSubmit(async ({
+                    images,
+                    description,
+                    displayName,
+                    location,
+                    slotTypes
+                }) => {
                     console.log('create garage form ::', data)
+                    const uploadedImages = await upload(images)
+
+                    const result = await createGarage({
+                        variables: {
+                            createGarageInput: {
+                                Address: location,
+                                images: uploadedImages,
+                                Slots: slotTypes,
+                                description,
+                                displayName
+                            }
+                        }
+                    })
+
+                    console.log('createGarage ::', result)
+
                 })}
             >
                 <HtmlLabel error={errors.displayName?.message} title='Display Name'>
@@ -83,8 +119,9 @@ export const CreateGarageContent = () => {
                         )}
                     />
                 </ImagePreview>
+                <AddSlots />
                 <Button loading={uploading
-                    //  || loading
+                    || loading
                 } type="submit">Submit</Button>
             </Form>
         </div>
