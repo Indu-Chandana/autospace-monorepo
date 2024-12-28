@@ -61,6 +61,8 @@ export class SlotsResolver {
       },
     })
 
+    // return console.log(garage)
+
     checkRowLevelPermission(
       user,
       garage.Company.Managers.map((manager) => manager.uid),

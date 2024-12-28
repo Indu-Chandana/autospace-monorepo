@@ -164,18 +164,22 @@ export class GaragesResolver {
     const endDate = new Date(end)
 
     const groupBySlots = await this.prisma.slot.groupBy({
-      by: ['type'],
-      _count: { type: true },
-      _min: { pricePerHour: true },
+      by: ['type'], // Grouping by the 'type' field
+      _count: { type: true }, // Counting the number of records in each type group
+      _min: { pricePerHour: true }, // Finding the minimum value of 'pricePerHour' in each group.
+      // so when user book that slot. other users can book higher than this slot priceperhour
       where: {
         ...slotsFilter,
-        garageId: { equals: garage.id },
+        garageId: { equals: garage.id }, // Only include slots with matching 'garageId'
+        // {garageId: garage.id} is same but used one more readable
+        // u need only some garageids use this - garageId: { in: [garage1.id, garage2.id]}
+        // if u want to find not equal, u can use - garageId: {equals: garage.id, not: anotherGarage.id}
         Bookings: {
           none: {
             OR: [
               {
-                startTime: { lt: endDate },
-                endTime: { gt: startDate },
+                startTime: { lt: endDate }, // less than
+                endTime: { gt: startDate }, // greater than
               },
               {
                 startTime: { gt: startDate },
