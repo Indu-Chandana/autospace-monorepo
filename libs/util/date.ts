@@ -77,3 +77,11 @@ export const getTimeUnits = (timeInSeconds: number) => {
         timeString
     }
 }
+
+export const formatDateCustom = (
+    date: string,
+    formatString = 'dd MMM yy HH:mm'
+) => {
+    const dateObj = new Date(date)
+    return format(dateObj, formatString)
+}

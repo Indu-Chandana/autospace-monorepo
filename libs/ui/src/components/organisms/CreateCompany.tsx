@@ -1,3 +1,4 @@
+'use client'
 import { useFormCreateCompany } from '@autospace/forms/src/createCompany'
 import { useEffect, useState } from 'react'
 import { Button } from '../atoms/Button'

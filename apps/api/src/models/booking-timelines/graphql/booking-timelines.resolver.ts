@@ -48,7 +48,8 @@ export class BookingTimelinesResolver {
     )
 
     const [
-      //updatedBooking,
+      ,
+      // need to mention it.
       bookingTimeline,
     ] = await this.prisma.$transaction([
       this.prisma.booking.update({

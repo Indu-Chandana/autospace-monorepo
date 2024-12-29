@@ -81,9 +81,10 @@ export class BookingsResolver {
   async bookingsForGarage(
     @Args()
     { cursor, distinct, orderBy, skip, take, where }: FindManyBookingArgs,
+    @Args('garageId') garageId: number,
     @GetUser() user: GetUserType,
   ) {
-    const garageId = where.Slot.is.garageId.equals
+    // const garageId = where.Slot.is.garageId.equals
     if (!garageId) {
       throw new BadRequestException('Pass garage id in where.Slot.is.garageId')
     }
@@ -105,7 +106,7 @@ export class BookingsResolver {
       take,
       where: {
         ...where,
-        Slot: { is: { garageId: { equals: garageId } } },
+        Slot: { is: { garageId: { equals: garageId } } }, // will filter garages based on the id.
       },
     })
   }
@@ -116,9 +117,16 @@ export class BookingsResolver {
     where: BookingWhereInput,
   ) {
     const bookings = await this.prisma.booking.aggregate({
+      // perform (count, sum, average) operation on a table.
       where,
-      _count: { _all: true },
-    })
+      _count: { _all: true }, // _count - count the number
+    }) // _all - count all rows that match the where condition
+    // (if we need we can say specific column ---  _count: { type: true } <-- this will check all the non-null values in the type column rows)
+    // -- type --
+    //    CAR
+    //    null
+    //    BIKE
+    // - this count => 2 --- because type column has only 2 values.
     return { count: bookings._count._all }
   }
 
