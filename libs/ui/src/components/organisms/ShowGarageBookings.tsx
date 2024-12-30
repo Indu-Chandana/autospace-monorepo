@@ -40,7 +40,7 @@ export const ShowGarageBookings = ({
         }
     })
 
-    // console.log('data', data)
+    console.log('data BookingsForGarage ::', data)
     return (
         <div className="mt-4">
             <div className="flex justify-center">
