@@ -19,6 +19,7 @@ import { CostTitleValue } from '../molecules/CostTitleValue'
 import { Button } from '../atoms/Button'
 import { TotalPrice } from '@autospace/util/types'
 import { loadStripe } from '@stripe/stripe-js'
+import { ManageValets } from './ManageValet'
 
 const BookSlotPopup = ({
     garage,
@@ -192,7 +193,7 @@ const BookSlotPopup = ({
                 <HtmlLabel title='Phone number' error={errors.phoneNumber?.message}>
                     <HtmlInput placeholder='+94000000000' {...register('phoneNumber')} />
                 </HtmlLabel>
-
+                <ManageValets garage={garage} />
                 {totalPriceObj ? (
                     <div className='mt-4'>
                         <CostTitleValue
