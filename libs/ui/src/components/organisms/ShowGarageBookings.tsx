@@ -28,7 +28,7 @@ export const ShowGarageBookings = ({
             garageId,
             skip,
             take,
-            where: {
+            where: { // ths goes into |bookingsCount| and |bookingsForGarage|
                 status: { in: statuses },
                 ...(searchTerm && {
                     vehicleNumber: {

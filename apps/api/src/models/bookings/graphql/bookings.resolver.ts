@@ -72,7 +72,7 @@ export class BookingsResolver {
   ) {
     return this.bookingsService.findAll({
       ...args,
-      where: { ...args.where, customerId: { equals: user.uid } },
+      where: { ...args.where, customerId: { equals: user.uid } }, // if u pass customerId from the FE, it will overide that in here.
     })
   }
 
@@ -81,7 +81,9 @@ export class BookingsResolver {
   async bookingsForGarage(
     @Args()
     { cursor, distinct, orderBy, skip, take, where }: FindManyBookingArgs,
-    @Args('garageId') garageId: number,
+    @Args('garageId') garageId: number, // actually we need to pass inside the -where-
+    // because 'BookingsForGarageDocument' we pass *this query* and *bookingsCount*
+    // for *bookingsCount* we need garageId to filter count for exact garage.
     @GetUser() user: GetUserType,
   ) {
     // const garageId = where.Slot.is.garageId.equals
@@ -116,6 +118,28 @@ export class BookingsResolver {
     @Args('where', { nullable: true })
     where: BookingWhereInput,
   ) {
+    console.log('booking count ::', where) // - where gets values when ->BookingsForGarageDocument called in FE
+    // -- where--  -- where--  -- where--  -- where--  -- where--  -- where--
+    // {
+    //   status: {
+    //     in: [ 'BOOKED', 'VALET_PICKED_UP', 'VALET_ASSIGNED_FOR_CHECK_IN' ]
+    //   }
+    // }
+    // --------- -- where--  -- where--  -- where-- ----
+    // {
+    //   status: {
+    //     in: [
+    //       'BOOKED',
+    //       'VALET_PICKED_UP',
+    //       'VALET_ASSIGNED_FOR_CHECK_OUT',
+    //       'VALET_ASSIGNED_FOR_CHECK_IN',
+    //       'CHECKED_IN'
+    //     ]
+    //   },
+    //   customerId: { equals: 'b18f4560-6228-4e2a-8697-06758f1b68d2' }
+    // }
+    // ------------------------------------------
+
     const bookings = await this.prisma.booking.aggregate({
       // perform (count, sum, average) operation on a table.
       where,
