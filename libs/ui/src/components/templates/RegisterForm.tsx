@@ -51,9 +51,9 @@ export const RegisterForm = ({
             <HtmlLabel title="Password" error={errors.password?.message} >
                 <HtmlInput {...register('password')} type="password" placeholder="******" />
             </HtmlLabel>
-            <HtmlLabel title="Image" error={errors.image?.message} optional>
+            {/* <HtmlLabel title="Image" error={errors.image?.message} optional>
                 <HtmlInput {...register('image')} placeholder="image" type="file" />
-            </HtmlLabel>
+            </HtmlLabel> */}
             {Object.keys(errors).length ? (
                 <div className="text-xs text-gray-600">
                     Please fix the above {Object.keys(errors).length} errors
