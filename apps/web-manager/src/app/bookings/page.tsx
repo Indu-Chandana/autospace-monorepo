@@ -1,4 +1,4 @@
-import { IsLoggedIn } from '@autospace/ui/src/components/organisms/isLoggedIn'
+import { IsLoggedIn } from '@autospace/ui/src/components/organisms/IsLoggedIn'
 import { IsManager } from '@autospace/ui/src/components/organisms/IsManager'
 import { ListGarageBookings } from '@autospace/ui/src/components/templates/ListGarageBookings'
 
