@@ -255,7 +255,7 @@ export class GaragesResolver {
   })
   async garagesCount(
     @Args('where', { nullable: true })
-    where: GarageWhereInput,
+    where: GarageWhereInput, // user can filter it also
   ) {
     const garages = await this.prisma.garage.aggregate({
       _count: { _all: true },
