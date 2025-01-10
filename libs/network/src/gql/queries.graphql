@@ -255,3 +255,49 @@ query CompanyValets($distinct: [ValetScalarFieldEnum!], $where: ValetWhereInput,
   }
   companyValetsTotal(where: $companyValetsTotalWhere2)
 }
+
+query ValetPickups($take: Float, $skip: Float) {
+  valetPickups(take: $take, skip: $skip) {
+    id
+    vehicleNumber
+    valetAssignment {
+      pickupLat
+      pickupLng
+      pickupValetId
+    }
+    startTime
+    endTime
+    slot {
+      garage {
+        address {
+          lat
+          lng
+        }
+      }
+    }
+  }
+  valetPickupsTotal
+}
+
+query ValetDrops($take: Float, $skip: Float) {
+  valetDrops(take: $take, skip: $skip) {
+    id
+    vehicleNumber
+    valetAssignment {
+      returnLat
+      returnValetId
+      returnLng
+    }
+    slot {
+      garage {
+        address {
+          lat
+          lng
+        }
+      }
+    }
+    startTime
+    endTime
+  }
+  valetDropsTotal
+}

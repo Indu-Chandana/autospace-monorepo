@@ -155,8 +155,8 @@ export class ValetsResolver {
       where: {
         Slot: { Garage: { companyId: valet.companyId } },
         ValetAssignment: {
-          pickupLat: { not: undefined },
-          pickupValetId: null,
+          pickupLat: { not: undefined }, // need to have pickupLat
+          pickupValetId: null, // and pickup valet not to be assigned yet
         },
       },
     })
@@ -213,40 +213,6 @@ export class ValetsResolver {
       },
     })
   }
-
-  // @AllowAuthenticated('admin', 'manager')
-  // @Query(() => [Valet])
-  // async ListOfValets(
-  //   @Args() args: FindManyValetArgs,
-  //   @GetUser() user: GetUserType
-  // ) {
-  //   const company = await this.prisma.company.findFirst({
-  //     where: { Managers: { some: { uid: user.uid } } }
-  //   })
-
-  //   return this.prisma.valet.findMany({
-  //     ...args,
-  //     where: { ...args.where, companyId: { equals: company.id } }
-  //   })
-  // }
-
-  // @AllowAuthenticated()
-  // @Query(() => Number)
-  // async CompanyValetTotal(
-  //   @Args('where', { nullable: true }) where: ValetWhereInput,
-  //   @GetUser() user: GetUserType
-  // ) {
-  //   const company = await this.prisma.company.findFirst({
-  //     where: { Managers: { some: { uid: user.uid } } }
-  //   })
-
-  //   return this.prisma.valet.count({
-  //     where: {
-  //       ...where,
-  //       companyId: { equals: company.id }
-  //     }
-  //   })
-  // }
 
   @AllowAuthenticated()
   @Mutation(() => Valet)
