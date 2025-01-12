@@ -301,3 +301,9 @@ query ValetDrops($take: Float, $skip: Float) {
   }
   valetDropsTotal
 }
+
+mutation AssignValet($bookingId: Float!, $status: String!) {
+  assignValet(bookingId: $bookingId, status: $status) {
+    id
+  }
+}

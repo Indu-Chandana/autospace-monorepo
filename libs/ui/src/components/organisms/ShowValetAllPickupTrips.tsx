@@ -1,8 +1,9 @@
 import { useTakeSkip } from "@autospace/util/hooks/pagination"
 import { ShowData } from "./ShowData"
 import { useQuery } from '@apollo/client'
-import { ValetPickupsDocument } from "@autospace/network/src/gql/generated"
+import { BookingStatus, ValetPickupsDocument } from "@autospace/network/src/gql/generated"
 import { ValetTripCard } from "./ValetTripCard"
+import { AssignValetButton } from "./AssignValetButton"
 
 // ALL -> PickupTrips
 export const ShowValetAllPickupTrips = () => {
@@ -36,7 +37,12 @@ export const ShowValetAllPickupTrips = () => {
                     }}
                     end={booking.slot.garage.address}
                 >
-                    <div>Hello</div>
+                    <AssignValetButton
+                        bookingId={booking.id}
+                        status={BookingStatus.ValetAssignedForCheckIn}
+                    >
+                        Accept
+                    </AssignValetButton>
                 </ValetTripCard>
             ))}
         </ShowData>

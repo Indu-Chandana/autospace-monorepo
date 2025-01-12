@@ -1,8 +1,9 @@
 import { useQuery } from '@apollo/client'
-import { ValetDropsDocument } from '@autospace/network/src/gql/generated'
+import { BookingStatus, ValetDropsDocument } from '@autospace/network/src/gql/generated'
 import { useTakeSkip } from '@autospace/util/hooks/pagination'
 import { ShowData } from './ShowData'
 import { ValetTripCard } from './ValetTripCard'
+import { AssignValetButton } from './AssignValetButton'
 
 // ALL -> DropOffTrips
 
@@ -35,7 +36,14 @@ export const ShowValetAllDropOffTrips = () => {
                         lng: booking.valetAssignment?.returnLng || undefined
                     }}
                     start={booking.slot.garage.address} // start from garage
-                />
+                >
+                    <AssignValetButton
+                        bookingId={booking.id}
+                        status={BookingStatus.ValetAssignedForCheckOut}
+                    >
+                        Accept
+                    </AssignValetButton>
+                </ValetTripCard>
             ))}
         </ShowData>
     )
